@@ -1,0 +1,29 @@
+# authendication credintials
+credentials:
+  usernames:
+    kalim:
+      email: kalim@gmail.com
+      name: Kalim Amzad
+      password: $2b$12$Vya.5Gw0ur0pDxsjt22/suzsNMS/xXYti30GXZZFQ62nUWwmcLJFm # Placeholder for hashed password of 'abc'
+
+cookie:
+  expiry_days: 1
+  key: some_signature_key # Must be string
+  name: some_cookie_name
+preauthorized:
+  emails:
+  - kalim@growwithdata.net
+
+
+
+db:
+  host: "localhost"
+  user: "root"
+  passwd: "@&&67&&@+7"
+  database: "expense"
+  auth_plugin: "mysql_native_password"
+
+  
+email_sender:
+  email: "kalim.resource@gmail.com"
+  pass: '@&&@+7'

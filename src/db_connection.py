@@ -3,11 +3,10 @@ import streamlit as st
 import mysql.connector as mysql
 
 
-with open('credintials.yml', 'r') as f:
-    credintials = yaml.load(f, Loader=yaml.FullLoader)
-    db_credintials = credintials['db']
-    system_pass = credintials['system_pass']['admin']
-    email_sender = credintials['email_sender']
+with open('config.yaml', 'r') as f:
+    configs = yaml.load(f, Loader=yaml.FullLoader)
+    db_credintials = configs['db']
+    email_sender = configs['email_sender']
 
 
 @st.cache
