@@ -97,7 +97,7 @@ def save_expense(cursor, db):
                 'amount',
                 'notes']   
 
-    show_data(cursor, db, df, columns, '**Show Expenses', 'expense')
+    show_data( df, columns)
     edit_data(cursor, db, df, columns, '**Edit Expenses', 'expense')
     delete_data(cursor, db, df, columns, '**Delete Expenses', 'expense')
 

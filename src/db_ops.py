@@ -2,9 +2,12 @@ import os
 import streamlit as st
 from st_aggrid import (GridOptionsBuilder, AgGrid, 
                        GridUpdateMode, ColumnsAutoSizeMode)
+import pandas as pd
+from utility import show_pdf
 
-def show_data(cursor, db, df, columns, label, table):
-    with st.expander("**Show** all Payments"):                    
+
+def show_data(df, columns):
+    with st.expander("**Show** all Expenses"):                    
         gb = GridOptionsBuilder.from_dataframe(df[columns])
         # configure selection
         gb.configure_selection(selection_mode="single", use_checkbox=False)
@@ -74,7 +77,8 @@ def edit_data(cursor, db, df, columns, label, table):
             # grid_return = AgGrid(editable_df, editable=True, theme='streamlit')
             # st.write(data)
             new_df = data['data']
-            st.form_submit_button('confirm', on_click=sent_to_db(cursor, db, table, df, new_df))
+            st.form_submit_button('confirm', 
+                                  on_click=sent_to_db(cursor, db, table, df, new_df))
 
 
 
@@ -100,3 +104,65 @@ def delete_data(cursor, db, df, columns, label, table):
             
             st.form_submit_button('confirm', on_click=sent_to_delete_db(cursor, db, table, selected_rows))
 
+
+def sent_to_db(cursor, db, primary_table, df_ref, new_df):
+    df_changes = df_ref.compare(new_df)
+    # st.write(new_df)
+
+    for row_index, col_name in df_changes.iterrows():
+        # st.write(row_index, col_name.index.tolist())
+        for col in col_name.index.tolist()[1::2]:
+            # st.write(col)
+            # st.write(col_name[col])
+            if not pd.isna(col_name[col]):
+                # st.write("Sure to udpate?") 
+                data_id = new_df.iloc[row_index]['id']
+
+                if col[0] not in ['bank', 'concern', 'payto', 'payfor']:
+                    # st.write("Are you sure to update?")
+                    if isinstance(col_name[col], str):
+                        update_query = "UPDATE {} SET {}='{}' WHERE id={}".format(primary_table, col[0], col_name[col], data_id)
+                    else:
+                        update_query = "UPDATE {} SET {}={} WHERE id={}".format(primary_table, col[0], col_name[col], data_id)
+                    # st.write(update_query)
+                    cursor.execute(update_query)
+                    db.commit()
+                    st.success(f'ID: {data_id}, {col[0]} = {col_name[col]}   Edited Successfully!')
+                    st.balloons()
+
+
+
+def delete_data(cursor, db, df, columns, label, table):
+    with st.expander(label):
+        with st.form(f'delete_{table}'):
+            # select the columns you want the users to see
+            gb = GridOptionsBuilder.from_dataframe(df[columns])
+            # configure selection
+            gb.configure_selection(selection_mode="single", use_checkbox=False)
+            gb.configure_side_bar()
+            gridOptions = gb.build()
+
+            data = AgGrid(df,
+                        gridOptions=gridOptions,
+                        # enable_enterprise_modules=True,
+                        allow_unsafe_jscode=True,
+                        update_mode=GridUpdateMode.SELECTION_CHANGED,
+                        columns_auto_size_mode=ColumnsAutoSizeMode.FIT_CONTENTS)
+
+            selected_rows = data["selected_rows"]
+            # st.write(selected_rows)
+            
+            st.form_submit_button('confirm', on_click=sent_to_delete_db(cursor, db, table, selected_rows))
+
+
+def sent_to_delete_db(cursor, db, table_name, selected_rows):
+    if len(selected_rows):
+        # st.write("Are you sure to delete?")
+        row_id = selected_rows[0]["id"]
+        # st.write(selected_rows[0]["id"])
+        delete_query = "DELETE from {} WHERE id={}".format(table_name, row_id)
+        # st.write(delete_query)
+        cursor.execute(delete_query)
+        db.commit()
+        st.success(f'ID: {row_id} Deleted Successfully!')
+        st.balloons()

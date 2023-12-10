@@ -3,7 +3,7 @@ import streamlit as st
 import streamlit_authenticator as stauth
 import yaml
 from yaml.loader import SafeLoader
-
+import base64
 
 def login(func):
     with open('./config.yaml') as file:
@@ -52,4 +52,10 @@ def save_expenses(expenses, filename):
     with open(filename, 'w') as outfile:
         json.dump(expenses, outfile, indent=4)
 
+
+def show_pdf(file_path):
+    with open(file_path,"rb") as f:
+        base64_pdf = base64.b64encode(f.read()).decode('utf-8')
+    pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="800" height="800" type="application/pdf"></iframe>'
+    st.markdown(pdf_display, unsafe_allow_html=True)
 
