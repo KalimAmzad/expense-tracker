@@ -20,7 +20,7 @@ db:
   host: "localhost"
   user: "root"
   passwd: "@&&67&&@+7"
-  database: "expense"
+  database: "ExpenseDB"
   auth_plugin: "mysql_native_password"
 
   

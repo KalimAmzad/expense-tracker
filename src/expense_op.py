@@ -86,7 +86,7 @@ def save_expense(cursor, db):
         st.warning("Please fill up above form")
 
     df = pd.read_sql('''SELECT id, expense_date, category, 
-                        amount, notes FROM expense''', con=db)
+                        amount, notes, documents FROM expense''', con=db)
     
     # st.dataframe(df)
 
@@ -96,9 +96,9 @@ def save_expense(cursor, db):
                 'category',
                 'amount',
                 'notes']   
-
-    show_data( df, columns)
-    edit_data(cursor, db, df, columns, '**Edit Expenses', 'expense')
-    delete_data(cursor, db, df, columns, '**Delete Expenses', 'expense')
+    # st.dataframe(df)
+    show_data(df, columns)
+    edit_data(cursor, db, df, columns, 'Edit Expenses', 'expense')
+    delete_data(cursor, db, df, columns, 'Delete Expenses', 'expense')
 
 

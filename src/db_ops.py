@@ -13,7 +13,6 @@ def show_data(df, columns):
         gb.configure_selection(selection_mode="single", use_checkbox=False)
         gb.configure_side_bar()
         gridOptions = gb.build()
-
         data = AgGrid(df,
                     gridOptions=gridOptions,
                     # enable_enterprise_modules=True,
@@ -79,6 +78,8 @@ def edit_data(cursor, db, df, columns, label, table):
             new_df = data['data']
             st.form_submit_button('confirm', 
                                   on_click=sent_to_db(cursor, db, table, df, new_df))
+            # st.rerun()
+
 
 
 
@@ -103,6 +104,8 @@ def delete_data(cursor, db, df, columns, label, table):
             # st.write(selected_rows)
             
             st.form_submit_button('confirm', on_click=sent_to_delete_db(cursor, db, table, selected_rows))
+            # st.rerun()
+
 
 
 def sent_to_db(cursor, db, primary_table, df_ref, new_df):
@@ -131,28 +134,6 @@ def sent_to_db(cursor, db, primary_table, df_ref, new_df):
                     st.balloons()
 
 
-
-def delete_data(cursor, db, df, columns, label, table):
-    with st.expander(label):
-        with st.form(f'delete_{table}'):
-            # select the columns you want the users to see
-            gb = GridOptionsBuilder.from_dataframe(df[columns])
-            # configure selection
-            gb.configure_selection(selection_mode="single", use_checkbox=False)
-            gb.configure_side_bar()
-            gridOptions = gb.build()
-
-            data = AgGrid(df,
-                        gridOptions=gridOptions,
-                        # enable_enterprise_modules=True,
-                        allow_unsafe_jscode=True,
-                        update_mode=GridUpdateMode.SELECTION_CHANGED,
-                        columns_auto_size_mode=ColumnsAutoSizeMode.FIT_CONTENTS)
-
-            selected_rows = data["selected_rows"]
-            # st.write(selected_rows)
-            
-            st.form_submit_button('confirm', on_click=sent_to_delete_db(cursor, db, table, selected_rows))
 
 
 def sent_to_delete_db(cursor, db, table_name, selected_rows):

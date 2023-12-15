@@ -60,14 +60,14 @@ def menu():
 
 
 
-# @login
+@login
 def main():
     cols1, cols2, cols3 = st.columns((1, 4, 1))
     # cols1.image('smart-group-logo-r.png')
     cols2.markdown("<h1 style='text-align: left;margin-top:-2rem; margin-left:1rem; color: #E12D06;'>Personal Expense Tracker</h1>", unsafe_allow_html=True)
     st.write('\n')
 
-    # if st.session_state["authentication_status"]:
+    if st.session_state["authentication_status"]:
 
         # URL of the GIF
         # col1, col2, col3 = st.columns(3)
@@ -79,7 +79,7 @@ def main():
         #     col2.image(gif_url.format(i+1), caption=f'Exercise {i+1}', width=300)
         #     col3.image(gif_url.format(i+2), caption=f'Exercise {i+2}', width=300)
 
-    menu()
+        menu()
         
 
 

@@ -9,7 +9,7 @@ with open('config.yaml', 'r') as f:
     email_sender = configs['email_sender']
 
 
-@st.cache
+# @st.cache
 def get_database_connection():
     db = mysql.connect(host = db_credintials['host'],
                       user = db_credintials['user'],
