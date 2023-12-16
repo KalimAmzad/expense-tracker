@@ -3,6 +3,7 @@
 ## Today We'll discuss about
 
 - [clickup](https://app.clickup.com/)
+- [Guideline of Issue Solving](Issue-Solving-Guideline.md)
 - [Database](https://dbdiagram.io/)
 - [Virtualenv](https://virtualenv.pypa.io/en/latest/)
 - [Streamlit](https://streamlit.io)
