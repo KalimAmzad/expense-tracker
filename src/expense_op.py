@@ -10,9 +10,9 @@ def save_expense(cursor, db):
     if 'flag' not in st.session_state:
         st.session_state.flag = 0
 
-    with st.form(key='expense_submit_form', clear_on_submit=False):
+    with st.form(key='expense_submit_form', clear_on_submit=False, border=False):
         expense_category = ['Shopping', 'Snacks', 'Mobile Recharge', 
-                            'Online Course', 'Subscription']
+                            'Online Course', 'Subscription', 'Others']
 
         expense_date = st.date_input('Expense Date*')
         category = st.selectbox('Expense Category*', expense_category)
@@ -24,7 +24,7 @@ def save_expense(cursor, db):
                                             accept_multiple_files=True)
         if st.form_submit_button(label='Submit'):
             if not(expense_date and category and amount):
-                st.write('Please fill all the * fields')
+                st.error('Please fill all the * fields')
             else:
                 st.session_state.flag = 1
                 # st.success('Data Submitted Successfully')
@@ -33,7 +33,7 @@ def save_expense(cursor, db):
     if st.session_state.flag:
         # st.write(final_parameter_calculation)
 
-        with st.form(key='final', clear_on_submit=True):
+        with st.form(key='final', clear_on_submit=True, border=False):
              # st.write(final_parameter_calculation)
 
             if st.form_submit_button('Are you Sure?'):
@@ -85,8 +85,7 @@ def save_expense(cursor, db):
     else:
         st.warning("Please fill up above form")
 
-    df = pd.read_sql('''SELECT id, expense_date, category, 
-                        amount, notes, documents FROM expense''', con=db)
+    df = pd.read_sql('''SELECT id, expense_date, category, amount, notes, documents FROM expense''', con=db)
     
     # st.dataframe(df)
 
