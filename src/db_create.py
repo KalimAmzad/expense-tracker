@@ -24,9 +24,9 @@ cursor, db = get_database_connection()
 #                                                     ON UPDATE CURRENT_TIMESTAMP)
 #                 ''')
 
-cursor.execute("show tables from ExpenseDB")
-tables = cursor.fetchall()
-print(tables)
+# cursor.execute("show tables from ExpenseDB")
+# tables = cursor.fetchall()
+# print(tables)
 
 cursor.execute("select * from ExpenseDB.expense")
 rows = cursor.fetchall()

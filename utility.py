@@ -19,7 +19,7 @@ def login(func):
     # hashed_passwords = stauth.Hasher(['abc', 'def']).generate()
     # st.write(hashed_passwords)
 
-    authenticator.login('Login', 'main')
+    authenticator.login('Sign-In', 'main')
 
     if st.session_state["authentication_status"] is False:
         st.error('Username/password is incorrect')
@@ -28,7 +28,7 @@ def login(func):
 
     if st.session_state["authentication_status"]:
         with st.sidebar:
-            authenticator.logout('Logout', 'main', key='unique_key')
+            authenticator.logout('Sign Out', 'main', key='unique_key')
             st.write(f'Welcome *{st.session_state["name"]}* 🤗')
 
     def execute(*args, **kwargs):
