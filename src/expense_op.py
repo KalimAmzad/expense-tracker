@@ -7,10 +7,11 @@ from src.db_ops import show_data, edit_data, delete_data
 
 def save_expense(cursor, db):
     st.header('💸 Expense Entry')
+    # st.write(st.session_state)
     if 'flag' not in st.session_state:
         st.session_state.flag = 0
 
-    with st.form(key='expense_submit_form', clear_on_submit=False, border=False):
+    with st.form(key='expense_submit_form', clear_on_submit=False, border=True):
         expense_category = ['Shopping', 'Snacks', 'Mobile Recharge', 
                             'Online Course', 'Subscription', 'Others']
 
@@ -33,7 +34,7 @@ def save_expense(cursor, db):
     if st.session_state.flag:
         # st.write(final_parameter_calculation)
 
-        with st.form(key='final', clear_on_submit=True, border=False):
+        with st.form(key='final', clear_on_submit=True, border=True):
              # st.write(final_parameter_calculation)
 
             if st.form_submit_button('Are you Sure?'):
@@ -90,12 +91,12 @@ def save_expense(cursor, db):
     # st.dataframe(df)
 
     # select the columns you want the users to see
-    columns = ['id',
+    columns = [
                'expense_date',
                 'category',
                 'amount',
                 'notes']   
-    # st.dataframe(df)
+    # st.dataframe(df[columns])
     show_data(df, columns)
     edit_data(cursor, db, df, columns, 'Edit Expenses', 'expense')
     delete_data(cursor, db, df, columns, 'Delete Expenses', 'expense')

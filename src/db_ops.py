@@ -103,7 +103,7 @@ def delete_data(cursor, db, df, columns, label, table):
             selected_rows = data["selected_rows"]
             # st.write(selected_rows)
             
-            st.form_submit_button('confirm', on_click=sent_to_delete_db(cursor, db, table, selected_rows))
+            st.form_submit_button('Confirm', on_click=sent_to_delete_db(cursor, db, table, selected_rows))
             # st.rerun()
 
 
